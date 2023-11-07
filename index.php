@@ -17,6 +17,20 @@
   <body>
     <main>
       <div class="container">
+      <?php 
+      $stmt = $conn->prepare("SELECT id, title, desc_short, desc_long, type, date FROM projects");
+      $conn = new PDO("mysql:host=$servername;dbname=crud", $username, $password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $stmt->execute();
+ 
+      // set the resulting array to associative
+      $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+      foreach($stmt->fetchAll() as $k=>$v) {
+        echo $v["id"];
+      }
+      $conn = null;
+     
+    ?>
         <div class="d-flex justify-content-center align-items-center m-4">
           <nav aria-label="search and filter">
             <input type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
