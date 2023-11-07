@@ -17,25 +17,6 @@
   <body>
     <main>
       <div class="container">
-        <?php
-        
-          $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $stmt = $conn->prepare("SELECT id, title, desc_long, desc_short, date, type FROM projects");
-          $stmt->execute();
-        // set the resulting array to associative
-  $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-  foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-    echo $v;
-  }
-  } catch(PDOException $e) {
-  echo "Error: " . $e->getMessage();
-}
-$conn = null;
-echo "</table>";
-          ?>
-
-        
         <div class="d-flex justify-content-center align-items-center m-4">
           <nav aria-label="search and filter">
             <input type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
