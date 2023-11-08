@@ -17,7 +17,7 @@
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1 projects">
           <div id="project1" class="project card shadow-sm card-body m-2">
             <div class="card-text">
-              <h2>Titel van project 1.</h2>
+          <a href="detail.php"></a><h2>Titel van project <?php echo $_GET["id"];?></h2>
               <div>Hier komt een <b>lange</b> omschrijving van het project.</div>
               <div>Type: website</div>
               <div>Jaar: 2023</div>

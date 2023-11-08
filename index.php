@@ -28,7 +28,7 @@
       foreach($stmt->fetchAll() as $k=>$v) {
         echo $v["id"];
       }
-      $conn = null;
+
      
     ?>
         <div class="d-flex justify-content-center align-items-center m-4">
@@ -36,17 +36,49 @@
             <input type="search" class="form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
           </nav>
         </div>
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1 projects">
-          <div id="project1" class="project card shadow-sm card-body m-2">
+
+   
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1 projects"
+        >
+        <?php 
+        $stmt = $conn->prepare("SELECT desc_short FROM projects");
+        $stmt->execute();
+
+      
+          
+         for ($a=1;$a<6;$a++){?>
+
+         <div id="project <?php echo $a;?>" class="project card shadow-sm card-body m-2">
+          <div class="card-text">
+              <h2>Titel van project <?php echo $a;?> </h2>
+              <div>Hier komt een korte omschrijving van het project.</div>
+      
+          <a href="detail.php?id=<?php echo $a;?> "> <button type="button" class="btn btn-sm btn-outline-secondary">
+                  View
+                </button></a>
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  Delete
+                </button>
+              </div>
+              
+              </div></div>
+
+                
+         <?php }; ?>
+
+          <!-- <a href="index.php?id= "></a><div id="project1" class="project card shadow-sm card-body m-2">
             <div class="card-text">
               <h2>Titel van project 1.</h2>
               <div>Hier komt een korte omschrijving van het project.</div>
             </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">
+              <a href="detail.php?id="> <button type="button" class="btn btn-sm btn-outline-secondary">
                   View
-                </button>
+                </button></a>
                 <button type="button" class="btn btn-sm btn-outline-secondary">
                   Edit
                 </button>
@@ -55,9 +87,9 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div id="project1" class="project card shadow-sm card-body m-2">
+          <!-- <div id="project1" class="project card shadow-sm card-body m-2">
             <div class="card-text">
               <h2>Titel van project 2.</h2>
               <div>Hier komt een korte omschrijving van het project.</div>
@@ -138,8 +170,8 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-center align-items-center m-4">
-          <nav aria-label="Page navigation example">
+        <<div class="d-flex justify-content-center align-items-center m-4"> -->
+          <!-- <nav aria-label="Page navigation example">
             <ul class="pagination">
               <li class="page-item">
                 <a class="page-link" href="#">Previous</a>
@@ -149,8 +181,8 @@
               <li class="page-item"><a class="page-link" href="#">3</a></li>
               <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
-          </nav>
-        </div>
+          </nav> -->
+        <!-- </div>  -->
 
       </div>
     </main>
