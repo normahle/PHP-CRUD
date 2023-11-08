@@ -1,3 +1,5 @@
+<?php include 'connection.php';?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,16 +13,44 @@
       crossorigin="anonymous"
     />
   </head>
+  <style>
+      .container {
+        background-color: #CBC3E3;
+      }
+    </style>
   <body>
     <main>
       <div class="container">
+      <?php 
+
+      $stmt = $conn->prepare("SELECT id, title, desc_short, desc_long, type, date FROM projects");
+      $conn = new PDO("mysql:host=$servername;dbname=crud", $username, $password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $stmt->execute();
+ 
+      // set the resulting array to associative
+      $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+      foreach($stmt->fetchAll() as $k=>$v) {
+        //echo $v["id"];
+      }
+
+     
+    ?>
         <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1 projects">
           <div id="project1" class="project card shadow-sm card-body m-2">
             <div class="card-text">
+              
+        <?php
+              $stmt = $conn->prepare("SELECT desc_long, type, date FROM projects");
+              $stmt->execute();
+              $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+              foreach ($stmt->fetchAll() as $k => $v) 
+              ?>
+
           <a href="detail.php"></a><h2>Titel van project <?php echo $_GET["id"];?></h2>
-              <div>Hier komt een <b>lange</b> omschrijving van het project.</div>
-              <div>Type: website</div>
-              <div>Jaar: 2023</div>
+          <?php echo $v["desc_long"] ?><br><br>
+          <?php echo $v["type"] ?><br><br>
+          <?php echo $v["date"] ?><br><br>
             </div>
           </div>
         </div>
