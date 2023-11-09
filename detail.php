@@ -48,9 +48,9 @@
               ?>
 
           <a href="detail.php"></a><h2>Titel van project <?php echo $_GET["id"];?></h2>
-          <?php echo $v["desc_long"] ?><br><br>
-          <?php echo $v["type"] ?><br><br>
-          <?php echo $v["date"] ?><br><br>
+          <?php echo $v["desc_long"] ?><br>
+          <?php echo $v["type"] ?><br>
+          <?php echo $v["date"] ?><br>
             </div>
           </div>
         </div>
