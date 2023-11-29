@@ -1,6 +1,7 @@
 <?php include 'connection.php'; ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +20,23 @@
 <body>
   <main>
     <div class="container">
+
+      <?php
+       session_start();
+      if (isset($_SESSION["username"])) 
+      {?>
+        <form action="logout.php" method="get">
+          <input type="submit" value="logout">
+        </form>
+      <?php } else { ?>
+
+        <form action="login.php" method="get">
+          <input type="submit" value="login">
+        </form>
+      <?php } ?>
+
+
+
       <?php
       $stmt = $conn->prepare("SELECT id, title, desc_short, desc_long, type, date FROM projects");
       $conn = new PDO("mysql:host=$servername;dbname=crud", $username, $password);
@@ -47,59 +65,77 @@
 
 
       <?php
+      $searchbtn = '%%';
+      if (isset($_GET["search"])) {
+
+        echo ($_GET["search"]);
+        $searchbtn = "%" . $_GET["search"] . "%";
+      }
+
+
+
 
       if (isset($_GET["search"])) {
         $searchbtn = "%" . $_GET["search"] . "%";
         $stmt = $conn->prepare("SELECT * FROM projects WHERE title like :search ORDER BY id desc");
-
         $stmt->bindParam(':search', $searchbtn);
       } else {
-        $stmt = $conn->prepare("select  *  from projects");
+        $stmt = $conn->prepare("SELECT * FROM projects");
       }
 
+      //$stmt = $conn->prepare("SELECT  *  FROM projects");
       $stmt->execute();
       $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-      foreach ($stmt->fetchAll() as $k => $v) ?>
-
-
-
-
-
+      ?>
+      
       <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-1 projects">
+   
+      <?php foreach ($stmt->fetchAll() as $k => $v) {?>
 
-        <?php
-        $stmt = $conn->prepare("SELECT desc_short FROM projects");
-        $stmt->execute();
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        foreach ($stmt->fetchAll() as $k => $v)
-        ?>
-        <?php
-
-
-
-
-      for ($a = 1; $a < 6; $a++) { ?>
-
-          <div id="project <?php echo $a; ?>" class="project card shadow-sm card-body m-2">
+          <div id="project_" class="project card shadow-sm card-body m-2">
             <div class="card-text">
-              <h2>Titel van project <?php echo $a; ?> </h2>
-              <?php echo $v["desc_short"] ?><br><br>
-              
-              <a href="detail.php?id=<?php echo $a; ?> "> <button type="button" class="btn btn-sm btn-outline-secondary">
+              <h2><?php echo $v["title"]; ?> </h2>
+              <?php echo $v["desc_short"]; ?><br><br>
+
+              <a href="detail.php?id=<?php echo $v["id"]; ?>"> <button type="button" class="btn btn-sm btn-outline-secondary">
                   View
                 </button></a>
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                Edit
-              </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                Delete
-              </button>
+
+                <?php 
+              if (isset($_SESSION["username"])) { ?>
+
+            <a href="add.php?id=<?php echo $v["id"]; ?>">
+             <button type="button" class="btn btn-sm btn-outline-secondary">
+                  add
+             </button></a>
+            <?php }; ?>
+
+            <?php 
+              if (isset($_SESSION["username"])) { ?>
+
+            <a href="edit.php?id=<?php echo $v["id"]; ?>">
+             <button type="button" class="btn btn-sm btn-outline-secondary">
+                  edit
+             </button></a>
+            <?php }; ?>
+
+              <?php 
+              if (isset($_SESSION["username"])) { ?>
+
+            <a href="delete.php?id=<?php echo $v["id"]; ?>">
+             <button type="button" class="btn btn-sm btn-outline-secondary">
+                  delete
+             </button></a>
+            <?php }; ?>
+          
+
+             
             </div>
 
           </div>
+          <?php }; ?>
 
-
-        <?php }; ?>
+     
 
         <div class="d-flex justify-content-center align-items-center m-4">
           <nav aria-label="Page navigation example">

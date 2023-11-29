@@ -1,3 +1,25 @@
+<?php include 'connection.php';?>
+
+<?php
+
+if (isset($_GET["username"]) && isset($_GET["password"]))
+
+
+ {
+  $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND password = :password");
+  $stmt->bindParam(':username', $_GET["username"]);
+  $stmt->bindParam(':password', $_GET["password"]);
+  $stmt->execute();
+  $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  foreach ($stmt->fetchAll() as $k => $v){
+    session_start();
+    $_SESSION["username"] = $_GET["username"];
+    $_SESSION["password"] = $_GET["password"];
+    header("Location: index.php");
+  }
+ }; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,13 +35,15 @@
   </head>
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-25 m-auto">
-      <form>
+
+      <form action="login.php" method="get">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
-          <input
-            type="email"
-            class="form-control"
+          <input  type="text" class="form-control" 
+            type = "username"
+            name="username" 
+            class = "form-control"
             id="floatingInput"
             placeholder="name@example.com"
           />
@@ -28,6 +52,7 @@
         <div class="form-floating">
           <input
             type="password"
+            name="password"
             class="form-control"
             id="floatingPassword"
             placeholder="Password"
@@ -35,9 +60,8 @@
           <label for="floatingPassword">Password</label>
         </div>
 
-        <button class="btn btn-primary w-100 py-2" type="submit">
-          Sign in
-        </button>
+        <input type="submit" value = "login" class="btn btn-primary w-100 py-2">
+
       </form>
     </main>
     <script
@@ -47,3 +71,7 @@
     ></script>
   </body>
 </html>
+
+
+
+
